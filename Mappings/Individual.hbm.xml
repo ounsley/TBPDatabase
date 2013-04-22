@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TBPDatabase" namespace="TBPDatabase.Domain">
+  <class name="Individual" table ="individuals">
+    <id name="ID"/>
+    <property name="Name"/>
+    <property name="sex"/>
+    <!-- The following field should actually be derived from IndividualTroopSightings-->
+    <!--many-to-one name="TroopVisitFirstObserved" class="TroopVisit"/-->
+    <property name="DateNotched"/>
+    <property name="TrappingID"/>
+    <property name="RightTop"/>
+    <property name="RightMiddle"/>
+    <property name="RightBottom"/>
+    <property name="LeftTop"/>
+    <property name="LeftMiddle"/>
+    <property name="LeftBottom"/>
+    <property name="IDNote"/>
+    <many-to-one name="Mother" class="Individual" lazy="false"/>
+    <property name="ActualDOB" not-null="false"/>
+    <property name="FieldEstimatedDOB" not-null="false"/>
+    <property name="TrappingEstimatedDOB" not-null="false"/>
+    <property name="Comment"/>
+    <set name="ReproductiveStateHistory" cascade="all-delete-orphan" inverse="true" order-by="TroopVisit desc" lazy="false">
+      <key column="Individual"/>
+      <one-to-many class="IndividualReproductiveState"/>
+    </set>
+    <set name="SightingHistory" cascade="all-delete-orphan" inverse="true" lazy="false">
+      <key column="Individual"/>
+      <one-to-many class="IndividualSighting"/>
+    </set>
+    <set name="AgeClassHistory" cascade="all-delete-orphan" inverse="true" lazy="false">
+      <key column="Individual"/>
+      <one-to-many class="IndividualAgeClass"/>
+    </set>
+  </class>
+</hibernate-mapping>
