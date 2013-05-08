@@ -71,6 +71,15 @@ namespace TBPDatabase.Editors
                 // user hit ok for now
                 this.buttonOk.Enabled = false;
             }
+
+            if (comboBoxState.Items.Count <= 0)
+            {
+                MessageBox.Show("There are no States in the database to select from!");
+                this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+                this.Close();
+                return;
+            }
+
             this.labelStateDescription.Text = ((S)comboBoxState.SelectedValue).Description;
 
             // hook up cotrol validation
@@ -86,7 +95,7 @@ namespace TBPDatabase.Editors
             ValidEntry();
         }
 
-        private bool ValidEntry()
+        protected bool ValidEntry()
         {
             bool valid = this.troopVisit != null &&
                 this.individual != null &&

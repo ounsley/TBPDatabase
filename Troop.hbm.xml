@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TBPDatabase" namespace="TBPDatabase.Domain">
+  <class name="Troop" table="troops">
+    <id name="TroopID">
+      <column name="TroopID" sql-type="int" not-null="true"></column>
+      <generator class="uuid.hex"/>
+    </id>
+    <property name="FirstTrapping"/>
+    <property name="Comments"/>
+  </class>
+</hibernate-mapping>

@@ -39,7 +39,6 @@
             this.labelStep3 = new System.Windows.Forms.Label();
             this.labelStep4 = new System.Windows.Forms.Label();
             this.labelStep5 = new System.Windows.Forms.Label();
-            this.labelStep6 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelCurrentTroopVisit = new System.Windows.Forms.Label();
             this.labelHeading = new System.Windows.Forms.Label();
@@ -55,8 +54,6 @@
             this.troopVisitWizardPage = new TBPDatabase.DailyInput.TroopVisitDetailsWizardPage();
             this.tabPageMissingIndividuals = new System.Windows.Forms.TabPage();
             this.uncertainIndividualsWizardPage1 = new TBPDatabase.DailyInput.MissingIndividualsWizardPage();
-            this.tabPageForeignIndividualSightings = new System.Windows.Forms.TabPage();
-            this.foreignIndividualSightingWizardPage1 = new TBPDatabase.DailyInput.ForeignIndividualSightingWizardPage();
             this.tabPageNewIndividuals = new System.Windows.Forms.TabPage();
             this.newIndividualsWizardPage1 = new TBPDatabase.DailyInput.NewIndividualsWizardPage();
             this.tabPageReproductiveStates = new System.Windows.Forms.TabPage();
@@ -71,7 +68,6 @@
             this.tabPageTroopVisitSelection.SuspendLayout();
             this.tabPageTroopVisitDetails.SuspendLayout();
             this.tabPageMissingIndividuals.SuspendLayout();
-            this.tabPageForeignIndividualSightings.SuspendLayout();
             this.tabPageNewIndividuals.SuspendLayout();
             this.tabPageReproductiveStates.SuspendLayout();
             this.tabPageSummary.SuspendLayout();
@@ -112,7 +108,6 @@
             this.flowLayoutPanelSteps.Controls.Add(this.labelStep3);
             this.flowLayoutPanelSteps.Controls.Add(this.labelStep4);
             this.flowLayoutPanelSteps.Controls.Add(this.labelStep5);
-            this.flowLayoutPanelSteps.Controls.Add(this.labelStep6);
             this.flowLayoutPanelSteps.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelSteps.Location = new System.Drawing.Point(-5, 47);
             this.flowLayoutPanelSteps.Name = "flowLayoutPanelSteps";
@@ -149,9 +144,9 @@
             this.labelStep2.Location = new System.Drawing.Point(12, 92);
             this.labelStep2.Margin = new System.Windows.Forms.Padding(12, 0, 3, 15);
             this.labelStep2.Name = "labelStep2";
-            this.labelStep2.Size = new System.Drawing.Size(121, 16);
+            this.labelStep2.Size = new System.Drawing.Size(180, 16);
             this.labelStep2.TabIndex = 3;
-            this.labelStep2.Text = "Missing Individuals";
+            this.labelStep2.Text = "Troop Composition Changes";
             // 
             // labelStep3
             // 
@@ -160,9 +155,9 @@
             this.labelStep3.Location = new System.Drawing.Point(12, 123);
             this.labelStep3.Margin = new System.Windows.Forms.Padding(12, 0, 3, 15);
             this.labelStep3.Name = "labelStep3";
-            this.labelStep3.Size = new System.Drawing.Size(172, 16);
-            this.labelStep3.TabIndex = 4;
-            this.labelStep3.Text = "Foreign Individual Sightings";
+            this.labelStep3.Size = new System.Drawing.Size(102, 16);
+            this.labelStep3.TabIndex = 5;
+            this.labelStep3.Text = "New Individuals";
             // 
             // labelStep4
             // 
@@ -171,9 +166,9 @@
             this.labelStep4.Location = new System.Drawing.Point(12, 154);
             this.labelStep4.Margin = new System.Windows.Forms.Padding(12, 0, 3, 15);
             this.labelStep4.Name = "labelStep4";
-            this.labelStep4.Size = new System.Drawing.Size(102, 16);
-            this.labelStep4.TabIndex = 5;
-            this.labelStep4.Text = "New Individuals";
+            this.labelStep4.Size = new System.Drawing.Size(180, 16);
+            this.labelStep4.TabIndex = 6;
+            this.labelStep4.Text = "Reproductive State Changes";
             // 
             // labelStep5
             // 
@@ -182,20 +177,9 @@
             this.labelStep5.Location = new System.Drawing.Point(12, 185);
             this.labelStep5.Margin = new System.Windows.Forms.Padding(12, 0, 3, 15);
             this.labelStep5.Name = "labelStep5";
-            this.labelStep5.Size = new System.Drawing.Size(180, 16);
-            this.labelStep5.TabIndex = 6;
-            this.labelStep5.Text = "Reproductive State Changes";
-            // 
-            // labelStep6
-            // 
-            this.labelStep6.AutoSize = true;
-            this.labelStep6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelStep6.Location = new System.Drawing.Point(12, 216);
-            this.labelStep6.Margin = new System.Windows.Forms.Padding(12, 0, 3, 15);
-            this.labelStep6.Name = "labelStep6";
-            this.labelStep6.Size = new System.Drawing.Size(65, 16);
-            this.labelStep6.TabIndex = 7;
-            this.labelStep6.Text = "Summary";
+            this.labelStep5.Size = new System.Drawing.Size(65, 16);
+            this.labelStep5.TabIndex = 7;
+            this.labelStep5.Text = "Summary";
             // 
             // panel1
             // 
@@ -296,7 +280,6 @@
             this.wizardTabControl.Controls.Add(this.tabPageTroopVisitSelection);
             this.wizardTabControl.Controls.Add(this.tabPageTroopVisitDetails);
             this.wizardTabControl.Controls.Add(this.tabPageMissingIndividuals);
-            this.wizardTabControl.Controls.Add(this.tabPageForeignIndividualSightings);
             this.wizardTabControl.Controls.Add(this.tabPageNewIndividuals);
             this.wizardTabControl.Controls.Add(this.tabPageReproductiveStates);
             this.wizardTabControl.Controls.Add(this.tabPageSummary);
@@ -369,26 +352,6 @@
             this.uncertainIndividualsWizardPage1.Padding = new System.Windows.Forms.Padding(3);
             this.uncertainIndividualsWizardPage1.Size = new System.Drawing.Size(600, 400);
             this.uncertainIndividualsWizardPage1.TabIndex = 0;
-            // 
-            // tabPageForeignIndividualSightings
-            // 
-            this.tabPageForeignIndividualSightings.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageForeignIndividualSightings.Controls.Add(this.foreignIndividualSightingWizardPage1);
-            this.tabPageForeignIndividualSightings.Location = new System.Drawing.Point(4, 4);
-            this.tabPageForeignIndividualSightings.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPageForeignIndividualSightings.Name = "tabPageForeignIndividualSightings";
-            this.tabPageForeignIndividualSightings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageForeignIndividualSightings.Size = new System.Drawing.Size(600, 397);
-            this.tabPageForeignIndividualSightings.TabIndex = 4;
-            this.tabPageForeignIndividualSightings.Text = "tabPage5";
-            // 
-            // foreignIndividualSightingWizardPage1
-            // 
-            this.foreignIndividualSightingWizardPage1.Location = new System.Drawing.Point(-3, -4);
-            this.foreignIndividualSightingWizardPage1.Name = "foreignIndividualSightingWizardPage1";
-            this.foreignIndividualSightingWizardPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.foreignIndividualSightingWizardPage1.Size = new System.Drawing.Size(600, 400);
-            this.foreignIndividualSightingWizardPage1.TabIndex = 0;
             // 
             // tabPageNewIndividuals
             // 
@@ -477,7 +440,6 @@
             this.tabPageTroopVisitSelection.PerformLayout();
             this.tabPageTroopVisitDetails.ResumeLayout(false);
             this.tabPageMissingIndividuals.ResumeLayout(false);
-            this.tabPageForeignIndividualSightings.ResumeLayout(false);
             this.tabPageNewIndividuals.ResumeLayout(false);
             this.tabPageReproductiveStates.ResumeLayout(false);
             this.tabPageSummary.ResumeLayout(false);
@@ -488,15 +450,6 @@
 
         #endregion
 
-        private WizardTabControl wizardTabControl;
-        private System.Windows.Forms.TabPage tabPageTroopVisitDetails;
-        private System.Windows.Forms.TabPage tabPageNewIndividuals;
-        private System.Windows.Forms.TabPage tabPageMissingIndividuals;
-        private System.Windows.Forms.TabPage tabPageSummary;
-        private TroopVisitDetailsWizardPage troopVisitWizardPage;
-        private SummaryWizardPage summaryWizardPage;
-        private System.Windows.Forms.TabPage tabPageTroopVisitSelection;
-        private TroopVisitSelectionWizardPage troopVisitSelectionWizardPage1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel labelLoadTime;
@@ -507,7 +460,6 @@
         private System.Windows.Forms.Label labelStep3;
         private System.Windows.Forms.Label labelStep4;
         private System.Windows.Forms.Label labelStep5;
-        private System.Windows.Forms.Label labelStep6;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonNext;
@@ -515,12 +467,19 @@
         private System.Windows.Forms.Label labelHeading;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panel2;
-        private NewIndividualsWizardPage newIndividualsWizardPage1;
-        private MissingIndividualsWizardPage uncertainIndividualsWizardPage1;
         private System.Windows.Forms.Label labelCurrentTroopVisit;
-        private System.Windows.Forms.TabPage tabPageForeignIndividualSightings;
-        private ForeignIndividualSightingWizardPage foreignIndividualSightingWizardPage1;
+        private System.Windows.Forms.TabPage tabPageSummary;
+        private SummaryWizardPage summaryWizardPage;
         private System.Windows.Forms.TabPage tabPageReproductiveStates;
         private ReproductiveStateWizardPage reproductiveStateWizardPage1;
+        private System.Windows.Forms.TabPage tabPageNewIndividuals;
+        private NewIndividualsWizardPage newIndividualsWizardPage1;
+        private System.Windows.Forms.TabPage tabPageMissingIndividuals;
+        private MissingIndividualsWizardPage uncertainIndividualsWizardPage1;
+        private System.Windows.Forms.TabPage tabPageTroopVisitDetails;
+        private TroopVisitDetailsWizardPage troopVisitWizardPage;
+        private System.Windows.Forms.TabPage tabPageTroopVisitSelection;
+        private TroopVisitSelectionWizardPage troopVisitSelectionWizardPage1;
+        private WizardTabControl wizardTabControl;
     }
 }

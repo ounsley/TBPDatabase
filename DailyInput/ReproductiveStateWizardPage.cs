@@ -53,6 +53,18 @@ namespace TBPDatabase.DailyInput
                 this.ValidityChanged(this, null);
 
             this.dataGridView1.SelectionChanged += new EventHandler(dataGridView1_SelectionChanged);
+            this.comboBoxState.SelectedIndexChanged += new EventHandler(comboBoxState_SelectedIndexChanged);
+            this.comboBoxStateNew.SelectedIndexChanged += new EventHandler(comboBoxStateNew_SelectedIndexChanged);
+        }
+
+        void comboBoxStateNew_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.labelDescriptionNew.Text = ((ReproductiveState)comboBoxStateNew.SelectedItem).Description;
+        }
+
+        void comboBoxState_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.labelDescriptionNew.Text = ((ReproductiveState)comboBoxState.SelectedItem).Description;
         }
 
         void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -106,7 +118,8 @@ namespace TBPDatabase.DailyInput
                 .SetResultTransformer(new DistinctRootEntityResultTransformer())
                 .List<IndividualReproductiveState>();
             }
-            this.boundReproductiveStates = new SortableBindingList<IndividualReproductiveState>(initialReproductiveStates);
+
+            List<IndividualReproductiveState> tempReproductivestateList = new List<IndividualReproductiveState>(initialReproductiveStates);
 
             // Lets also get all the current ones for today, if they are already entered
             if (DailyData.Current.RetrievedData)
@@ -124,25 +137,23 @@ namespace TBPDatabase.DailyInput
                 foreach (IndividualReproductiveState s in todaysReproductiveStates)
                 {
                     bool replacement = false;
-                    for (int i = 0; i < boundReproductiveStates.Count; i++)
+                    for (int i = 0; i < todaysReproductiveStates.Count; i++)
                     {
-                        if (boundReproductiveStates[i].Individual.ID == s.Individual.ID)
+                        if (tempReproductivestateList[i].Individual.ID == s.Individual.ID)
                         {
-                            boundReproductiveStates[i] = s;
+                            tempReproductivestateList[i] = s;
                             replacement = true;
                             break;
                         }
                     }
                     if (!replacement)
                     {
-                        boundReproductiveStates.Add(s);
+                        tempReproductivestateList.Add(s);
                     }
                 }
             }
 
             tx.Commit();
-
-
 
             females = females.FindAll(new Predicate<Individual>(x =>
                     x.CurrentTroop(DailyData.Current.TroopVisit.Date) != null &&
@@ -154,13 +165,14 @@ namespace TBPDatabase.DailyInput
                     x.Sex == Individual.SexEnum.F)));
 
             // Remove females who already have entries
-            foreach (IndividualReproductiveState irs in boundReproductiveStates)
+            foreach (IndividualReproductiveState irs in tempReproductivestateList)
             {
                 int index = females.FindIndex(new Predicate<Individual>(x =>
                     x.ID == irs.Individual.ID));
                 if (index >= 0)
                     females.RemoveAt(index);
             }
+
 
             if (females.Count == 0)
             {
@@ -171,6 +183,39 @@ namespace TBPDatabase.DailyInput
             else
                 this.comboBoxFemales.DataSource = females;
 
+            // Set missing individuals to unknown automatically
+            // Check to see if the individual was not seen today, replace with unknown if so
+            for (int i = 0; i < tempReproductivestateList.Count; i++)
+            {
+                IndividualReproductiveState current = tempReproductivestateList[i];
+
+                // We do not need to replace exising unknow entries for today
+                if (current.State != unknown &&
+                    current.TroopVisit.Date.Date != DailyData.Current.TroopVisit.Date.Date &&
+                    DailyData.Current.MissingToday.FindIndex(
+                    x => x.ID == current.Individual.ID) > -1)
+                {
+                    IndividualReproductiveState irs = new IndividualReproductiveState();
+                    irs.TroopVisit = DailyData.Current.TroopVisit;
+                    irs.Individual = current.Individual;
+                    irs.State = unknown;
+                    irs.Comments = "AUTOMATICALLY GENERATED ENTRY :- Not seen on this troop visit.";
+                    tempReproductivestateList[i] = irs;
+                }
+            }
+
+            // Finally lets remove any individuals who have been listed as migrated
+            // fropm the list
+            foreach (Individual i in DailyData.Current.MigratedToday)
+            {
+                int index = tempReproductivestateList.FindIndex(x => x.Individual.ID == i.ID);
+                if (index >= 0)
+                {
+                    tempReproductivestateList.RemoveAt(index);
+                }
+            }
+
+            this.boundReproductiveStates = new SortableBindingList<IndividualReproductiveState>(tempReproductivestateList);
             this.dataGridView1.DataSource = boundReproductiveStates;
 
             FinishedLoading(this, null);
@@ -189,20 +234,9 @@ namespace TBPDatabase.DailyInput
                     irs.TroopVisit = DailyData.Current.TroopVisit;
                     irs.Individual = s.Individual;
 
-                    // Check to see if the individual was not seen today
-                    if (DailyData.Current.NewSightings.FindIndex(
-                        new Predicate<IndividualSighting>(x =>
-                            x.Individual.ID == s.Individual.ID &&
-                            !x.Sighting.Inclusion)) > -1)
-                    {
-                        irs.State = unknown;
-                        irs.Comments = "AUTOMATICALLY GENERATED ENTRY :- Not seen on this troop visit.";
-                    }
-                    else
-                    {
-                        irs.State = s.State;
-                        irs.Comments = "AUTOMATICALLY GENERATED ENTRY :- No Change.";
-                    }
+
+                    irs.State = s.State;
+                    irs.Comments = "AUTOMATICALLY GENERATED ENTRY :- No Change.";
                     DailyData.Current.NewReproductiveStates.Add(irs);
                 }
                 else if (s.ID == 0) // Add the updated entry to the list if it is new

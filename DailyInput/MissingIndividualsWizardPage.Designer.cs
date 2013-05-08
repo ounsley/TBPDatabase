@@ -46,7 +46,6 @@
             this.radioButtonSeen = new System.Windows.Forms.RadioButton();
             this.radioButtonNotSeen = new System.Windows.Forms.RadioButton();
             this.groupBoxEdit = new System.Windows.Forms.GroupBox();
-            this.buttonRevert = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBoxIndividuals = new System.Windows.Forms.ComboBox();
             this.individualBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -76,12 +75,12 @@
             this.TroopVisit,
             this.commentsDataGridViewTextBoxColumn});
             this.dataGridViewNotSeen.DataSource = this.individualSightingBindingSource;
-            this.dataGridViewNotSeen.Location = new System.Drawing.Point(20, 38);
+            this.dataGridViewNotSeen.Location = new System.Drawing.Point(6, 6);
             this.dataGridViewNotSeen.MultiSelect = false;
             this.dataGridViewNotSeen.Name = "dataGridViewNotSeen";
             this.dataGridViewNotSeen.RowHeadersVisible = false;
             this.dataGridViewNotSeen.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewNotSeen.Size = new System.Drawing.Size(562, 132);
+            this.dataGridViewNotSeen.Size = new System.Drawing.Size(588, 231);
             this.dataGridViewNotSeen.TabIndex = 52;
             // 
             // sightedCheckBoxColumn
@@ -144,18 +143,18 @@
             // 
             // buttonUpdate
             // 
-            this.buttonUpdate.Location = new System.Drawing.Point(201, 163);
+            this.buttonUpdate.Location = new System.Drawing.Point(215, 121);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(75, 23);
             this.buttonUpdate.TabIndex = 59;
             this.buttonUpdate.Text = "Update";
             this.buttonUpdate.UseVisualStyleBackColor = true;
-            this.buttonUpdate.Click += new System.EventHandler(this.buttonDone_Click);
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 70);
+            this.label1.Location = new System.Drawing.Point(6, 59);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 13);
             this.label1.TabIndex = 58;
@@ -163,11 +162,11 @@
             // 
             // textBoxComments
             // 
-            this.textBoxComments.Location = new System.Drawing.Point(9, 86);
+            this.textBoxComments.Location = new System.Drawing.Point(9, 75);
             this.textBoxComments.MaxLength = 199;
             this.textBoxComments.Multiline = true;
             this.textBoxComments.Name = "textBoxComments";
-            this.textBoxComments.Size = new System.Drawing.Size(267, 71);
+            this.textBoxComments.Size = new System.Drawing.Size(281, 40);
             this.textBoxComments.TabIndex = 57;
             // 
             // flowLayoutPanel1
@@ -175,16 +174,16 @@
             this.flowLayoutPanel1.Controls.Add(this.radioButtonSeen);
             this.flowLayoutPanel1.Controls.Add(this.radioButtonNotSeen);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(174, 19);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(201, 16);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(102, 61);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(89, 53);
             this.flowLayoutPanel1.TabIndex = 56;
+            this.flowLayoutPanel1.WrapContents = false;
             // 
             // radioButtonSeen
             // 
             this.radioButtonSeen.AutoSize = true;
             this.radioButtonSeen.Location = new System.Drawing.Point(3, 3);
-            this.radioButtonSeen.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.radioButtonSeen.Name = "radioButtonSeen";
             this.radioButtonSeen.Size = new System.Drawing.Size(79, 17);
             this.radioButtonSeen.TabIndex = 0;
@@ -195,7 +194,7 @@
             // radioButtonNotSeen
             // 
             this.radioButtonNotSeen.AutoSize = true;
-            this.radioButtonNotSeen.Location = new System.Drawing.Point(3, 33);
+            this.radioButtonNotSeen.Location = new System.Drawing.Point(3, 26);
             this.radioButtonNotSeen.Name = "radioButtonNotSeen";
             this.radioButtonNotSeen.Size = new System.Drawing.Size(70, 17);
             this.radioButtonNotSeen.TabIndex = 1;
@@ -205,28 +204,17 @@
             // 
             // groupBoxEdit
             // 
-            this.groupBoxEdit.Controls.Add(this.buttonRevert);
             this.groupBoxEdit.Controls.Add(this.labelIndividual);
             this.groupBoxEdit.Controls.Add(this.textBoxComments);
             this.groupBoxEdit.Controls.Add(this.flowLayoutPanel1);
             this.groupBoxEdit.Controls.Add(this.label1);
             this.groupBoxEdit.Controls.Add(this.buttonUpdate);
-            this.groupBoxEdit.Location = new System.Drawing.Point(20, 176);
+            this.groupBoxEdit.Location = new System.Drawing.Point(6, 243);
             this.groupBoxEdit.Name = "groupBoxEdit";
-            this.groupBoxEdit.Size = new System.Drawing.Size(282, 192);
+            this.groupBoxEdit.Size = new System.Drawing.Size(296, 151);
             this.groupBoxEdit.TabIndex = 61;
             this.groupBoxEdit.TabStop = false;
-            this.groupBoxEdit.Text = "Update";
-            // 
-            // buttonRevert
-            // 
-            this.buttonRevert.Location = new System.Drawing.Point(81, 163);
-            this.buttonRevert.Name = "buttonRevert";
-            this.buttonRevert.Size = new System.Drawing.Size(114, 23);
-            this.buttonRevert.TabIndex = 61;
-            this.buttonRevert.Text = "Revert / Remove";
-            this.buttonRevert.UseVisualStyleBackColor = true;
-            this.buttonRevert.Click += new System.EventHandler(this.buttonRevert_Click);
+            this.groupBoxEdit.Text = "Update Individual";
             // 
             // groupBox1
             // 
@@ -235,18 +223,18 @@
             this.groupBox1.Controls.Add(this.buttonAdd);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.textBoxNewComments);
-            this.groupBox1.Location = new System.Drawing.Point(308, 176);
+            this.groupBox1.Location = new System.Drawing.Point(308, 243);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(274, 192);
+            this.groupBox1.Size = new System.Drawing.Size(286, 151);
             this.groupBox1.TabIndex = 62;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Newly Missing";
+            this.groupBox1.Text = "Add Foreign Individual";
             // 
             // comboBoxIndividuals
             // 
             this.comboBoxIndividuals.DataSource = this.individualBindingSource;
             this.comboBoxIndividuals.FormattingEnabled = true;
-            this.comboBoxIndividuals.Location = new System.Drawing.Point(9, 36);
+            this.comboBoxIndividuals.Location = new System.Drawing.Point(9, 35);
             this.comboBoxIndividuals.Name = "comboBoxIndividuals";
             this.comboBoxIndividuals.Size = new System.Drawing.Size(153, 21);
             this.comboBoxIndividuals.TabIndex = 63;
@@ -266,7 +254,7 @@
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(193, 163);
+            this.buttonAdd.Location = new System.Drawing.Point(205, 121);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 61;
@@ -277,7 +265,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 70);
+            this.label2.Location = new System.Drawing.Point(6, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 61;
@@ -285,11 +273,11 @@
             // 
             // textBoxNewComments
             // 
-            this.textBoxNewComments.Location = new System.Drawing.Point(6, 86);
+            this.textBoxNewComments.Location = new System.Drawing.Point(6, 75);
             this.textBoxNewComments.MaxLength = 199;
             this.textBoxNewComments.Multiline = true;
             this.textBoxNewComments.Name = "textBoxNewComments";
-            this.textBoxNewComments.Size = new System.Drawing.Size(262, 71);
+            this.textBoxNewComments.Size = new System.Drawing.Size(274, 40);
             this.textBoxNewComments.TabIndex = 61;
             // 
             // MissingIndividualsWizardPage
@@ -327,7 +315,6 @@
         private System.Windows.Forms.RadioButton radioButtonSeen;
         private System.Windows.Forms.RadioButton radioButtonNotSeen;
         private System.Windows.Forms.GroupBox groupBoxEdit;
-        private System.Windows.Forms.Button buttonRevert;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox comboBoxIndividuals;
         private System.Windows.Forms.Label label3;

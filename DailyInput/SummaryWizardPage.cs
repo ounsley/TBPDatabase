@@ -84,6 +84,13 @@ namespace TBPDatabase.DailyInput
             foreach (IndividualReproductiveState s in DailyData.Current.NewReproductiveStates)
                 textBox1.AppendText(s.Individual.Name + " " + s.State.Description + " on " +
                 s.TroopVisit.ToString() + "\r\n");
+            
+            p = "\r\n\r\nRemoved Reproductive States";
+            textBox1.AppendText(p + "\r\n");
+            textBox1.AppendText("".PadRight(50, '-') + "\r\n");
+            foreach (IndividualReproductiveState s in DailyData.Current.ReproductiveStatesToDelete)
+                textBox1.AppendText(s.Individual.Name + " " + s.State.Description + " on " +
+                s.TroopVisit.ToString() + "\r\n");
 
             p = "\r\n\r\nNew Age Class";
             textBox1.AppendText(p + "\r\n");

@@ -8,6 +8,7 @@ using NHibernate.Transform;
 using System.Collections.Generic;
 using TBPDatabase.Utilities;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace TBPDatabase.DailyInput
 {
@@ -18,9 +19,8 @@ namespace TBPDatabase.DailyInput
         public bool CurrentlyValid { get { return valid; } }
         public string Heading { get { return heading; } }
 
-        protected string sightingTypeId = "NS";
-        protected string heading = "Update the status of individuals that have" +
-            " not recently been seen, and add individuals not seen today.";
+        protected string heading = "Record any troop members that were not seen today, " + 
+            "or foreign individuals that were sighted with the troop.";
         protected bool listIndividualsFromTroop = true;
 
         bool valid = false;
@@ -33,19 +33,14 @@ namespace TBPDatabase.DailyInput
         // Cache these values, so we don't have to keep retrieving them
         Sighting notSeen;
         Sighting seen;
-
-        // Specific to this class or child class
-        Sighting sightingType;
-        Sighting certainAlternative;
+        Sighting absent;
+        Sighting immigrated;
 
         // Binding list to display to the user
         BindingList<IndividualSighting> currentNotSeen = new BindingList<IndividualSighting>();
 
-        // Cache for initial values
-        List<IndividualSighting> initialNotSeen = new List<IndividualSighting>();
-
         // List for combo box maybe we only need name and ids for the combo box
-        List<Individual> individuals;
+        List<Individual> individuals = new List<Individual>();
 
         // The previous troop visit for this troop
         TroopVisit mostRecentTroopVisit = null;
@@ -59,7 +54,6 @@ namespace TBPDatabase.DailyInput
             this.radioButtonNotSeen.Click += new EventHandler(radioButtonNotSeen_Click);
             this.radioButtonSeen.Click += new EventHandler(radioButtonNotSeen_Click);
         }
-
 
         public void LoadData()
         {
@@ -78,24 +72,13 @@ namespace TBPDatabase.DailyInput
             // Cache these values for later
             notSeen = session.Get<Sighting>("NS");
             seen = session.Get<Sighting>("S");
-
-            // Set the sighting type
-            if (notSeen.ID == sightingTypeId)
-            {
-                sightingType = notSeen;
-                certainAlternative = session.Get<Sighting>("A");
-            }
-            else
-            {
-                certainAlternative = session.Get<Sighting>("IM");
-                sightingType = seen;
-            }
+            absent = session.Get<Sighting>("A");
+            immigrated = session.Get<Sighting>("IM");
 
             // Get the last 5 (maxUncertainSightings) troop visits before this date
             lastTroopVisits = new List<TroopVisit>(session
                     .CreateQuery("select tv from TroopVisit as tv " +
                     "left join fetch tv.Troop as t " +
-                //"left join fetch tv.Observers " +
                     "where t.TroopID = :troopID and " +
                     "tv.Date < :date " +
                     "order by tv.Date desc")
@@ -104,127 +87,96 @@ namespace TBPDatabase.DailyInput
                     .SetMaxResults(maxUncertainSightings)
                     .List<TroopVisit>());
 
+            // Note the mostRecentTroopVisit prior to this one
             if (lastTroopVisits.Count > 0)
                 mostRecentTroopVisit = lastTroopVisits[0];
 
-            // Lets get any individual sightings for the previous troop visit
-            // that are uncertain
-            IList<IndividualSighting> previousUncertainSightings = null;
-            if (mostRecentTroopVisit != null)
-            {
-                previousUncertainSightings = session
-                .CreateQuery("select s from IndividualSighting as s " +
-                "left join fetch s.TroopVisit as tv " +
-                "left join fetch tv.Observers " +
-                "where tv = :troopVisit " +
-                "and s.Sighting.Uncertain = True ")
-                .SetParameter<TroopVisit>("troopVisit", mostRecentTroopVisit)
-                .SetResultTransformer(new DistinctRootEntityResultTransformer())
-                .List<IndividualSighting>();
-            }
-
-            // Add the not seen entries to the list, note which individuals
-            // are uncertain
-            List<Individual> uncertainIndividuals = new List<Individual>();
-            if (previousUncertainSightings != null)
-            {
-                foreach (IndividualSighting sighting in previousUncertainSightings)
-                {
-                    if (sighting != null
-                        && sighting.TroopVisit.Troop.TroopID == DailyData.Current.TroopVisit.Troop.TroopID
-                        && sighting.Sighting.Uncertain)
-                    {
-                        if (sighting.Sighting.ID == sightingType.ID)
-                        {
-                            currentNotSeen.Add(sighting);
-                            uncertainIndividuals.Add(sighting.Individual);
-                        }
-                    }
-                }
-            }
-
-            // Get any sightings for todays troop visit that may already exist
-            // for the individuals that were uncertain or any new uncertain
-            // sightings
-            // Cache for values already in database for today
-            List<IndividualSighting> todaysSightings = new List<IndividualSighting>();
-            if (DailyData.Current.RetrievedData)
-            {
-                todaysSightings = (List<IndividualSighting>)session
-                    .CreateQuery("select s from IndividualSighting as s " +
-                    "left join fetch s.TroopVisit as tv " +
-                    "where tv = :troopVisit " +
-                    "and s.Sighting = :sighting ")
-                    .SetParameter<TroopVisit>("troopVisit", DailyData.Current.TroopVisit)
-                    .SetParameter<Sighting>("sighting", sightingType)
-                    .SetResultTransformer(new DistinctRootEntityResultTransformer())
-                    .List<IndividualSighting>();
-            }
-
-            // Absentees can only be existing members from this troop
-            // This should be modified
+            // Get all the individuals
             individuals = Individual.LoadAll(session);
+
+            // We want all individual sightings for this troop visit and the last
+            // if possible
+            List<IndividualSighting> currentIndividualSightings = null;
+            if (mostRecentTroopVisit != null && DailyData.Current.RetrievedData)
+            {
+                currentIndividualSightings = new List<IndividualSighting>(
+                session.CreateQuery("select s from IndividualSighting as s " +
+                    "where s.TroopVisit = :troopVisit or " + 
+                    "s.TroopVisit = :troopVisit2")
+                    .SetParameter<TroopVisit>("troopVisit", mostRecentTroopVisit)
+                    .SetParameter<TroopVisit>("troopVisit2", DailyData.Current.TroopVisit)
+                    //.SetMaxResults(maxUncertainSightings)
+                    .List<IndividualSighting>());
+            }
+            else if (mostRecentTroopVisit != null)
+            {
+                TroopVisit tv = DailyData.Current.RetrievedData ? DailyData.Current.TroopVisit : mostRecentTroopVisit;
+                currentIndividualSightings = new List<IndividualSighting>(
+                    session.CreateQuery("select s from IndividualSighting as s " +
+                        "where s.TroopVisit = :troopVisit ")
+                        .SetParameter<TroopVisit>("troopVisit",tv)
+                        //.SetMaxResults(maxUncertainSightings)
+                        .List<IndividualSighting>());
+            }
 
             tx.Commit();
 
-            // Make a copy of initial list to revert back to.
-            initialNotSeen = new List<IndividualSighting>(currentNotSeen);
+            // A list for sorting
+            List<IndividualSighting> sightings = new List<IndividualSighting>();
+
+            // List an entry for each individual
+            foreach (Individual i in individuals)
+            {
+                // Find any sightings for this troop visit or the last troop visit
+                // for this individual
+                List<IndividualSighting> individualSightingCandidates = new List<IndividualSighting>();
+                if(currentIndividualSightings != null)
+                    individualSightingCandidates = currentIndividualSightings.FindAll(x => x.Individual.ID == i.ID);
+
+                if (individualSightingCandidates.Count > 0) // Does this individual have an uncertain entry to list?
+                {
+                    // we want the most recent one to be displayed
+                    IndividualSighting mostRecent = null;
+                    foreach (IndividualSighting s in individualSightingCandidates)
+                    {
+                        if (mostRecent == null || s.TroopVisit.Date > mostRecent.TroopVisit.Date)
+                            mostRecent = s;
+                    }
+                    sightings.Add(mostRecent);
+                }
+                else // if not add the current certain sighting that is an inclusion
+                {
+                    IndividualSighting s = i.CurrentSighting(DailyData.Current.TroopVisit,
+                       true);
+                    if (s != null && s.State.Inclusion)
+                        sightings.Add(s);
+                }
+            }
+
+            // Sort reverse date order
+            sightings.Sort((x, y) => -1 * x.TroopVisit.Date.CompareTo(y.TroopVisit.Date));
+
+            // Add to the datagridview
+            currentNotSeen = new BindingList<IndividualSighting>(sightings);
             this.individualSightingBindingSource.DataSource = currentNotSeen;
 
-            // Replace sightings with todays sightings if for the same individual
-            // add new uncertain sightings for this day to the end and check as done
-            foreach (IndividualSighting sighting in todaysSightings)
-            {
-                bool replacement = false;
-                for (int i = 0; i < currentNotSeen.Count; i++)
-                {
-                    if (currentNotSeen[i].Individual.ID == sighting.Individual.ID)
-                    {
-                        currentNotSeen[i] = sighting;
-                        SetCheckBox(i, true);
-                        replacement = true;
-                        break;
-                    }
-                }
-                // The individual is not already listed
-                // so add to the end
-                if (!replacement)
-                {
-                    // Check that this is not an entirely new individual
-                    if (sighting.Individual.FirstSighting() != sighting)
-                    {
-                        currentNotSeen.Add(sighting);
-                        SetCheckBox(currentNotSeen.IndexOf(sighting), true);
-                    }
-                }
-            }
-
-            // Filter individuals from this troop only
+            // Filter individuals not from this troop only
             individuals = individuals.FindAll(new Predicate<Individual>(x =>
                     x.CurrentTroop(DailyData.Current.TroopVisit.Date) != null &&
-                        // A bit funny, but we want to find values who are included or excluded based on
-                        // 'included'
-                        // if 'included' is true then we require the troop ids to match otherwise we
-                        // require them to differ
-                    (listIndividualsFromTroop == (x.CurrentTroop(DailyData.Current.TroopVisit.Date).TroopID == DailyData.Current.TroopVisit.Troop.TroopID))));
+                    (x.CurrentTroop(DailyData.Current.TroopVisit.Date).TroopID != DailyData.Current.TroopVisit.Troop.TroopID)));
 
-            try
-            {
-                // Sort individuals by the most recent certain current sighting
-                individuals.Sort((x, y) =>
-                        x.CurrentSighting(DailyData.Current.TroopVisit.Date, true) != null ?
-                        x.CurrentSighting(DailyData.Current.TroopVisit.Date, true).CompareTo(y.CurrentSighting(DailyData.Current.TroopVisit.Date, true))
-                        : 1);
-            }
-            catch (Exception e)
-            { }// Not such a big deal if we can't sort
-
+            // Add to combo box
             this.comboBoxIndividuals.DataSource = individuals;
 
             CheckComplete();
             this.FinishedLoading(this, null);
         }
 
+        /// <summary>
+        /// Enable the update button once a selection is made
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void radioButtonNotSeen_Click(object sender, EventArgs e)
         {
             this.buttonUpdate.Enabled = true;
@@ -238,9 +190,8 @@ namespace TBPDatabase.DailyInput
             this.radioButtonNotSeen.Checked = false;
             this.radioButtonSeen.Checked = false;
             this.textBoxComments.Clear();
-            this.buttonUpdate.Enabled = false;
-            this.buttonRevert.Enabled = false;
             this.dataGridViewNotSeen.Focus();
+            this.buttonUpdate.Enabled = false;
 
             if (dataGridViewNotSeen.SelectedRows.Count > 0)
             {
@@ -248,30 +199,7 @@ namespace TBPDatabase.DailyInput
 
                 // Set the label to the selected individual
                 this.labelIndividual.Text = currentNotSeen[currentIndex].Individual.Name;
-
-                // Then fill in the data if it has already been entered
-                if (RowChecked(currentIndex))
-                {
-                    buttonUpdate.Enabled = true;
-                    this.textBoxComments.Text = currentNotSeen[currentIndex].Comments;
-                    if (currentNotSeen[currentIndex].Sighting == seen)
-                        radioButtonSeen.Checked = true;
-                    else
-                        radioButtonNotSeen.Checked = true;
-
-                    // Enable the revert button for already entered items
-                    this.buttonRevert.Enabled = true;
-                    this.buttonUpdate.Enabled = false;
-                    this.radioButtonNotSeen.Enabled = false;
-                    this.radioButtonSeen.Enabled = false;
-                }
             }
-        }
-
-        private bool RowChecked(int index)
-        {
-            return ((DataGridViewCheckBoxCell)dataGridViewNotSeen.Rows[index].Cells["sightedCheckBoxColumn"])
-                .Value == sightedCheckBoxColumn.TrueValue;
         }
 
         private void SetCheckBox(int index, bool value)
@@ -287,75 +215,163 @@ namespace TBPDatabase.DailyInput
             // replaced
             foreach (IndividualSighting newIS in currentNotSeen)
             {
-                // Check if this individual has reached the threshold
+                // Check if this individual has reached the threshold for a change in certain
+                // troop membership
 
-                // First find all sightings that match with our last troop visits list
+                // First find all uncertain sightings that match with our last troop visits list
                 List<IndividualSighting> matches = new List<IndividualSighting>(newIS.Individual.SightingHistory)
-                    .FindAll(new Predicate<IndividualSighting>(x =>
-                        lastTroopVisits.Contains(x.TroopVisit)));
+                    .FindAll(x =>
+                        x.State.Certain == false &&
+                        lastTroopVisits.Contains(x.TroopVisit));
 
                 if (matches.Count >= maxUncertainSightings)
                 {
                     int threshold = maxUncertainSightings + 1;
+                    Sighting uncertainValue = null;
+                    Sighting certainValue = null;
+                    if (matches[0].Sighting.ID == seen.ID)
+                    {
+                        uncertainValue = seen;
+                        certainValue = immigrated;
+                    }
+                    else
+                    {
+                        uncertainValue = notSeen;
+                        certainValue = absent;
+                    }
 
                     IndividualSighting certainSighting = new IndividualSighting();
                     certainSighting.Individual = newIS.Individual;
                     certainSighting.TroopVisit = lastTroopVisits[lastTroopVisits.Count - 1];
-                    certainSighting.Sighting = certainAlternative;
+                    certainSighting.Sighting = certainValue;
                     certainSighting.Comments = "AUTOMATICALLY GENERATED ENTRY :- Troop membership updated after " + threshold +
-                        " " + sightingType.ID + " sightings";
+                        " " + uncertainValue.ID + " sightings";
 
-                    MessageBox.Show(newIS.Individual.Name + " " + sightingType.Description.ToLower() +
+                    // Ask if we want to change the troop membership for this individual
+                    if (MessageBox.Show(newIS.Individual.Name + " " + uncertainValue.Description.ToLower() +
                         " for the last " + threshold + " troop visits. These entries will be removed " +
                         " and the individual will be marked as '" + certainSighting.Sighting.Description +
-                        "' on troop visit " + certainSighting.TroopVisit.ToString());
+                        "' on troop visit " + certainSighting.TroopVisit.ToString() + ". Do you want to make this change?",
+                        "Troop membership changed for " + newIS.Individual.Name,
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                    {
 
-                    // Add the new entry
-                    DailyData.Current.NewSightings.Add(certainSighting);
-                    // Delete the old entries
-                    DailyData.Current.SightingsToDelete.AddRange(matches);
+                        // Add the new entry
+                        DailyData.Current.NewSightings.Add(certainSighting);
+                        // Delete the old entries
+                        DailyData.Current.SightingsToDelete.AddRange(matches);
+
+                        // We also want to remove reproductive states for females so..
+                        List<IndividualReproductiveState> reproductiveStates =
+                            new List<IndividualReproductiveState>(newIS.Individual.ReproductiveStateHistory)
+                        .FindAll(x => lastTroopVisits.Contains(x.TroopVisit));
+
+                        DailyData.Current.ReproductiveStatesToDelete.AddRange(reproductiveStates);
+                        DailyData.Current.MigratedToday.Add(newIS.Individual);
+                    }
+                    else
+                    {
+                        if (newIS.State.ID == "NS")
+                            DailyData.Current.MissingToday.Add(newIS.Individual);
+                        if (newIS.ID == 0)
+                            DailyData.Current.NewSightings.Add(newIS);
+                    }
                 }
-                else
+                else // Not a migration so
                 {
+                    // Add those whose id is new
                     if (newIS.ID == 0)
                         DailyData.Current.NewSightings.Add(newIS);
+
+                    if (newIS.State.ID == "NS")
+                        DailyData.Current.MissingToday.Add(newIS.Individual);
                 }
             }
 
             return true;
         }
 
-        private void buttonDone_Click(object sender, EventArgs e)
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             // The index of the selected row
             int index = dataGridViewNotSeen.SelectedRows[0].Index;
+            IndividualSighting sighting = currentNotSeen[index];
 
             // What has the user selected for this individual
             Sighting selection = seen;
             if (radioButtonNotSeen.Checked)
                 selection = notSeen;
 
-            // Is this selction type that we are dealing with?
-            // If so we need to make a new entry and replace the existing one
-            if (selection.ID == sightingType.ID)
+            // What is the current state of the individual?
+            // If we are updating a seen individual it is foreign
+            if (sighting.Sighting.ID == seen.ID)
             {
-                IndividualSighting currentIS = (IndividualSighting)dataGridViewNotSeen.SelectedRows[0].DataBoundItem;
-                IndividualSighting newIS = new IndividualSighting();
-                newIS.TroopVisit = DailyData.Current.TroopVisit;
-                newIS.Individual = currentIS.Individual;
-                newIS.Sighting = selection;
-                newIS.Comments = textBoxComments.Text;
+                // If they have been seen again we need to add another entry for the individual
+                if (selection.ID == seen.ID)
+                {
+                    IndividualSighting newIS = new IndividualSighting();
+                    newIS.TroopVisit = DailyData.Current.TroopVisit;
+                    newIS.Individual = sighting.Individual;
+                    newIS.Sighting = selection;
+                    newIS.Comments = textBoxComments.Text;
 
-                // Replace the entry
-                currentNotSeen[index] = newIS;
+                    // Replace the entry
+                    currentNotSeen[index] = newIS;
+
+                    // Set that we have updated this
+                    SetCheckBox(index, true);
+
+                    // Move to next entry
+                    if (dataGridViewNotSeen.Rows.Count > index + 1)
+                        dataGridViewNotSeen.Rows[index + 1].Selected = true;
+                }
+                else // Remove them from the list, we do not need
+                // to make any new entries
+                {
+                    currentNotSeen.RemoveAt(index);
+
+                    // Move to next entry
+                    if (dataGridViewNotSeen.Rows.Count > index)
+                        dataGridViewNotSeen.Rows[index].Selected = true;
+                }
             }
+            else // the individual is not foreign
+            {
+                // Are we marking them as not seen?
+                // If so we need to add a new entry
+                if (selection.ID == notSeen.ID)
+                {
+                    IndividualSighting newIS = new IndividualSighting();
+                    newIS.TroopVisit = DailyData.Current.TroopVisit;
+                    newIS.Individual = sighting.Individual;
+                    newIS.Sighting = selection;
+                    newIS.Comments = textBoxComments.Text;
 
-            // Set that we have updated this
-            SetCheckBox(index, true);
+                    // Replace the entry
+                    currentNotSeen[index] = newIS;
 
-            // Move to next entry
-            if (dataGridViewNotSeen.Rows.Count > index + 1)
-                dataGridViewNotSeen.Rows[index + 1].Selected = true;
+                    // Set that we have updated this
+                    SetCheckBox(index, true);
+
+                    // Move to next entry
+                    if (dataGridViewNotSeen.Rows.Count > index + 1)
+                        dataGridViewNotSeen.Rows[index + 1].Selected = true;
+                }
+                else // We need to show the last certain sighting
+                    // and check as done
+                {
+                    currentNotSeen[index] = sighting.Individual.CurrentSighting(DailyData.Current.TroopVisit, true);
+
+                    // Set that we have updated this
+                    SetCheckBox(index, true);
+
+                    // Move to next entry
+                    if (dataGridViewNotSeen.Rows.Count > index + 1)
+                        dataGridViewNotSeen.Rows[index + 1].Selected = true;
+                }
+            }
 
             // Is this page complete?
             CheckComplete();
@@ -371,6 +387,11 @@ namespace TBPDatabase.DailyInput
             {
                 DataGridViewCheckBoxCell c = (DataGridViewCheckBoxCell)r.Cells["sightedCheckBoxColumn"];
                 complete &= c.Value == c.TrueValue;
+
+                if (currentNotSeen[r.Index].State.Certain == false)
+                    r.DefaultCellStyle.BackColor = Color.Yellow;
+                else
+                    r.DefaultCellStyle.BackColor = Color.White;
             }
 
             if (complete != valid)
@@ -378,40 +399,7 @@ namespace TBPDatabase.DailyInput
                 this.valid = complete;
                 this.ValidityChanged(this, null);
             }
-        }
 
-        private void buttonRevert_Click(object sender, EventArgs e)
-        {
-            //IndividualSighting currentIS = (IndividualSighting)dataGridViewNotSeen.SelectedRows[0].DataBoundItem;
-            int currentIndex = dataGridViewNotSeen.SelectedRows[0].Index;
-            if (RowChecked(currentIndex))
-            {
-                // Add the current value to the delete list
-                IndividualSighting toBeRemoved = currentNotSeen[currentIndex];
-                // If already persistent then add to remove list
-                if (toBeRemoved.ID > 0)
-                    DailyData.Current.SightingsToDelete.Add(toBeRemoved);
-
-                // We want to go back to initial value, or remove
-                // if there was none
-                if (currentIndex > initialNotSeen.Count - 1)
-                {
-                    // Removing value
-                    currentNotSeen.RemoveAt(currentIndex);
-                }
-                else
-                {
-                    // Replacing value with previous
-                    currentNotSeen[currentIndex] = initialNotSeen[currentIndex];
-                    // Uncheck the box
-                    ((DataGridViewCheckBoxCell)this.dataGridViewNotSeen["sightedCheckBoxColumn", currentIndex])
-                        .Value = sightedCheckBoxColumn.FalseValue;
-                }
-            }
-
-            // Is the page valid?
-            this.dataGridViewNotSeen_SelectionChanged(this, null);
-            this.CheckComplete();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -420,7 +408,7 @@ namespace TBPDatabase.DailyInput
             s.TroopVisit = DailyData.Current.TroopVisit;
             s.Individual = (Individual)comboBoxIndividuals.SelectedValue;
             s.Comments = textBoxNewComments.Text;
-            s.Sighting = sightingType;
+            s.Sighting = seen;
 
             foreach (IndividualSighting x in currentNotSeen)
             {
@@ -432,12 +420,12 @@ namespace TBPDatabase.DailyInput
                 }
             }
 
-            this.currentNotSeen.Add(s);
-            int index = currentNotSeen.Count - 1;
+            // Add to top of the list
+            this.currentNotSeen.Insert(0, s);
             // Check the box
-            ((DataGridViewCheckBoxCell)this.dataGridViewNotSeen["sightedCheckBoxColumn", index])
-                .Value = sightedCheckBoxColumn.TrueValue;
+            SetCheckBox(0, true);
 
+            CheckComplete();
             this.dataGridViewNotSeen_SelectionChanged(this, null);
         }
 
@@ -456,8 +444,8 @@ namespace TBPDatabase.DailyInput
             {
                 for (int i = 0; i < currentNotSeen.Count; i++)
                 {
-                    // Values already complete should be checked
-                    if (currentNotSeen[i].TroopVisit.ID == DailyData.Current.TroopVisit.ID)
+                    // Values check certain values automatically
+                    if (currentNotSeen[i].State.Certain)
                         SetCheckBox(i, true);
                 }
             }
@@ -467,6 +455,5 @@ namespace TBPDatabase.DailyInput
             this.dataGridViewNotSeen_SelectionChanged(this, null);
             this.CheckComplete();
         }
-
     }
 }

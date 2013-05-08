@@ -62,7 +62,7 @@ namespace TBPDatabase.DailyInput
 
             this.distanceTextBox.TextChanged += new EventHandler(Verify);
 
-
+            this.Verify(this, null);
         }
 
         public void LoadData()
@@ -113,6 +113,8 @@ namespace TBPDatabase.DailyInput
 
             this.dataGridViewObservers.DataSource = observers;
             this.FinishedLoading(this, null);
+            this.Verify(this, null);
+
 
         }
 
@@ -130,6 +132,7 @@ namespace TBPDatabase.DailyInput
             valid &= Water.ReceivedInput && GPS.ReceivedInput && FullDayFollow.ReceivedInput;
             float dummy = 0;
             valid &= float.TryParse(this.distanceTextBox.Text, out dummy);
+            valid &= this.dataGridViewObservers.Rows.Count > 0;
 
             if (valid != currentlyValid)
             {
@@ -154,23 +157,37 @@ namespace TBPDatabase.DailyInput
 
             DailyData.Current.NewTroopVisitObservers.AddRange(this.observers);
 
-
-
             return true;
         }
 
         private void buttonObserverAdd_Click(object sender, EventArgs e)
         {
             TroopVisitObserver tvo = new TroopVisitObserver();
-            tvo.TroopVisit = DailyData.Current.TroopVisit;
+            tvo.TroopVisit = DailyData.Current.TroopVisit;  
             tvo.Observer = (Observer)this.comboBoxObservers.SelectedItem;
-            this.observers.Add(tvo);
+            bool listed = false;
+
+            // Check that the observer is not already listed
+            foreach (TroopVisitObserver t in observers)
+            {
+                if (t.Observer == tvo.Observer)
+                {
+                    listed = true;
+                    break;
+                }
+            }
+
+            if (!listed)
+                this.observers.Add(tvo);
+            this.Verify(this, null);
+
         }
 
         private void buttonObserverDelete_Click(object sender, EventArgs e)
         {
             if (this.dataGridViewObservers.CurrentRow.Index >= 0)
                 this.observers.RemoveAt(dataGridViewObservers.CurrentRow.Index);
+            this.Verify(this, null);
         }
 
         public void Selected()

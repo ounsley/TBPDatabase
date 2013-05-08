@@ -87,6 +87,18 @@
             this.troopVisitDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.commentsDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.individualAgeClassBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tabPageEventHistory = new System.Windows.Forms.TabPage();
+            this.buttonEditEvent = new System.Windows.Forms.Button();
+            this.buttonDeleteEvent = new System.Windows.Forms.Button();
+            this.buttonNewEvent = new System.Windows.Forms.Button();
+            this.dataGridViewEvent = new System.Windows.Forms.DataGridView();
+            this.individualEventBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tabPageInteractionHistory = new System.Windows.Forms.TabPage();
+            this.dataGridViewInteraction = new System.Windows.Forms.DataGridView();
+            this.individualInteractionBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.buttonEditInteraction = new System.Windows.Forms.Button();
+            this.buttonDeleteInteraction = new System.Windows.Forms.Button();
+            this.buttonNewInteraction = new System.Windows.Forms.Button();
             this.trappingIDLabel = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
             this.notchControl = new TBPDatabase.SessionForms.NotchControl();
@@ -95,6 +107,15 @@
             this.label9 = new System.Windows.Forms.Label();
             this.labelID = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.eventDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.troopVisitDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commentsDataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.individual2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.interactionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.troopVisitDataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commentsDataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.individualBindingSource)).BeginInit();
             this.tabControlHistories.SuspendLayout();
             this.tabPageIndividualReproductiveState.SuspendLayout();
@@ -106,6 +127,12 @@
             this.tabPageAgeClass.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewIndividualAgeClass)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.individualAgeClassBindingSource)).BeginInit();
+            this.tabPageEventHistory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvent)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.individualEventBindingSource)).BeginInit();
+            this.tabPageInteractionHistory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInteraction)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.individualInteractionBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -407,6 +434,8 @@
             this.tabControlHistories.Controls.Add(this.tabPageIndividualReproductiveState);
             this.tabControlHistories.Controls.Add(this.tabPageSighting);
             this.tabControlHistories.Controls.Add(this.tabPageAgeClass);
+            this.tabControlHistories.Controls.Add(this.tabPageEventHistory);
+            this.tabControlHistories.Controls.Add(this.tabPageInteractionHistory);
             this.tabControlHistories.Location = new System.Drawing.Point(327, 12);
             this.tabControlHistories.Name = "tabControlHistories";
             this.tabControlHistories.SelectedIndex = 0;
@@ -430,7 +459,7 @@
             // buttonEditReproductiveState
             // 
             this.buttonEditReproductiveState.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonEditReproductiveState.Location = new System.Drawing.Point(307, 357);
+            this.buttonEditReproductiveState.Location = new System.Drawing.Point(309, 359);
             this.buttonEditReproductiveState.Name = "buttonEditReproductiveState";
             this.buttonEditReproductiveState.Size = new System.Drawing.Size(75, 23);
             this.buttonEditReproductiveState.TabIndex = 5;
@@ -441,7 +470,7 @@
             // buttonDeleteReproductiveState
             // 
             this.buttonDeleteReproductiveState.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDeleteReproductiveState.Location = new System.Drawing.Point(388, 357);
+            this.buttonDeleteReproductiveState.Location = new System.Drawing.Point(390, 359);
             this.buttonDeleteReproductiveState.Name = "buttonDeleteReproductiveState";
             this.buttonDeleteReproductiveState.Size = new System.Drawing.Size(75, 23);
             this.buttonDeleteReproductiveState.TabIndex = 4;
@@ -452,7 +481,7 @@
             // buttonNewReproductiveState
             // 
             this.buttonNewReproductiveState.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonNewReproductiveState.Location = new System.Drawing.Point(469, 357);
+            this.buttonNewReproductiveState.Location = new System.Drawing.Point(471, 359);
             this.buttonNewReproductiveState.Name = "buttonNewReproductiveState";
             this.buttonNewReproductiveState.Size = new System.Drawing.Size(75, 23);
             this.buttonNewReproductiveState.TabIndex = 1;
@@ -481,7 +510,7 @@
             this.dataGridViewIndividualReproductiveState.RowHeadersVisible = false;
             this.dataGridViewIndividualReproductiveState.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewIndividualReproductiveState.ShowEditingIcon = false;
-            this.dataGridViewIndividualReproductiveState.Size = new System.Drawing.Size(540, 345);
+            this.dataGridViewIndividualReproductiveState.Size = new System.Drawing.Size(540, 347);
             this.dataGridViewIndividualReproductiveState.TabIndex = 0;
             // 
             // stateDataGridViewTextBoxColumn
@@ -529,7 +558,7 @@
             // buttonEditSighting
             // 
             this.buttonEditSighting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonEditSighting.Location = new System.Drawing.Point(307, 359);
+            this.buttonEditSighting.Location = new System.Drawing.Point(309, 359);
             this.buttonEditSighting.Name = "buttonEditSighting";
             this.buttonEditSighting.Size = new System.Drawing.Size(75, 23);
             this.buttonEditSighting.TabIndex = 4;
@@ -540,7 +569,7 @@
             // buttonDeleteSighting
             // 
             this.buttonDeleteSighting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDeleteSighting.Location = new System.Drawing.Point(388, 359);
+            this.buttonDeleteSighting.Location = new System.Drawing.Point(390, 359);
             this.buttonDeleteSighting.Name = "buttonDeleteSighting";
             this.buttonDeleteSighting.Size = new System.Drawing.Size(75, 23);
             this.buttonDeleteSighting.TabIndex = 3;
@@ -551,7 +580,7 @@
             // buttonNewSighting
             // 
             this.buttonNewSighting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonNewSighting.Location = new System.Drawing.Point(469, 359);
+            this.buttonNewSighting.Location = new System.Drawing.Point(471, 359);
             this.buttonNewSighting.Name = "buttonNewSighting";
             this.buttonNewSighting.Size = new System.Drawing.Size(75, 23);
             this.buttonNewSighting.TabIndex = 2;
@@ -580,7 +609,7 @@
             this.dataGridViewIndividualSighting.RowHeadersVisible = false;
             this.dataGridViewIndividualSighting.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewIndividualSighting.ShowEditingIcon = false;
-            this.dataGridViewIndividualSighting.Size = new System.Drawing.Size(543, 345);
+            this.dataGridViewIndividualSighting.Size = new System.Drawing.Size(543, 347);
             this.dataGridViewIndividualSighting.TabIndex = 1;
             // 
             // Status
@@ -628,7 +657,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(307, 359);
+            this.button1.Location = new System.Drawing.Point(309, 359);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 8;
@@ -639,7 +668,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(388, 359);
+            this.button2.Location = new System.Drawing.Point(390, 359);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 7;
@@ -650,7 +679,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(469, 359);
+            this.button3.Location = new System.Drawing.Point(471, 359);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 6;
@@ -679,7 +708,7 @@
             this.dataGridViewIndividualAgeClass.RowHeadersVisible = false;
             this.dataGridViewIndividualAgeClass.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewIndividualAgeClass.ShowEditingIcon = false;
-            this.dataGridViewIndividualAgeClass.Size = new System.Drawing.Size(543, 345);
+            this.dataGridViewIndividualAgeClass.Size = new System.Drawing.Size(543, 347);
             this.dataGridViewIndividualAgeClass.TabIndex = 5;
             // 
             // ageClassDataGridViewTextBoxColumn
@@ -709,6 +738,153 @@
             // individualAgeClassBindingSource
             // 
             this.individualAgeClassBindingSource.DataSource = typeof(TBPDatabase.Domain.IndividualAgeClass);
+            // 
+            // tabPageEventHistory
+            // 
+            this.tabPageEventHistory.Controls.Add(this.buttonEditEvent);
+            this.tabPageEventHistory.Controls.Add(this.buttonDeleteEvent);
+            this.tabPageEventHistory.Controls.Add(this.buttonNewEvent);
+            this.tabPageEventHistory.Controls.Add(this.dataGridViewEvent);
+            this.tabPageEventHistory.Location = new System.Drawing.Point(4, 22);
+            this.tabPageEventHistory.Name = "tabPageEventHistory";
+            this.tabPageEventHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageEventHistory.Size = new System.Drawing.Size(552, 388);
+            this.tabPageEventHistory.TabIndex = 3;
+            this.tabPageEventHistory.Text = "Event History";
+            this.tabPageEventHistory.UseVisualStyleBackColor = true;
+            // 
+            // buttonEditEvent
+            // 
+            this.buttonEditEvent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonEditEvent.Location = new System.Drawing.Point(309, 359);
+            this.buttonEditEvent.Name = "buttonEditEvent";
+            this.buttonEditEvent.Size = new System.Drawing.Size(75, 23);
+            this.buttonEditEvent.TabIndex = 11;
+            this.buttonEditEvent.Text = "Edit";
+            this.buttonEditEvent.UseVisualStyleBackColor = true;
+            // 
+            // buttonDeleteEvent
+            // 
+            this.buttonDeleteEvent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonDeleteEvent.Location = new System.Drawing.Point(390, 359);
+            this.buttonDeleteEvent.Name = "buttonDeleteEvent";
+            this.buttonDeleteEvent.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteEvent.TabIndex = 10;
+            this.buttonDeleteEvent.Text = "Delete";
+            this.buttonDeleteEvent.UseVisualStyleBackColor = true;
+            this.buttonDeleteEvent.Click += new System.EventHandler(this.buttonDeleteEvent_Click);
+            // 
+            // buttonNewEvent
+            // 
+            this.buttonNewEvent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonNewEvent.Location = new System.Drawing.Point(471, 359);
+            this.buttonNewEvent.Name = "buttonNewEvent";
+            this.buttonNewEvent.Size = new System.Drawing.Size(75, 23);
+            this.buttonNewEvent.TabIndex = 9;
+            this.buttonNewEvent.Text = "New";
+            this.buttonNewEvent.UseVisualStyleBackColor = true;
+            this.buttonNewEvent.Click += new System.EventHandler(this.buttonNewEvent_Click);
+            // 
+            // dataGridViewEvent
+            // 
+            this.dataGridViewEvent.AllowUserToAddRows = false;
+            this.dataGridViewEvent.AllowUserToDeleteRows = false;
+            this.dataGridViewEvent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewEvent.AutoGenerateColumns = false;
+            this.dataGridViewEvent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewEvent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewEvent.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.eventDataGridViewTextBoxColumn,
+            this.timeDataGridViewTextBoxColumn,
+            this.troopVisitDataGridViewTextBoxColumn2,
+            this.commentsDataGridViewTextBoxColumn2});
+            this.dataGridViewEvent.DataSource = this.individualEventBindingSource;
+            this.dataGridViewEvent.Location = new System.Drawing.Point(6, 6);
+            this.dataGridViewEvent.Name = "dataGridViewEvent";
+            this.dataGridViewEvent.ReadOnly = true;
+            this.dataGridViewEvent.RowHeadersVisible = false;
+            this.dataGridViewEvent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewEvent.Size = new System.Drawing.Size(543, 347);
+            this.dataGridViewEvent.TabIndex = 0;
+            // 
+            // individualEventBindingSource
+            // 
+            this.individualEventBindingSource.DataSource = typeof(TBPDatabase.Domain.IndividualEvent);
+            // 
+            // tabPageInteractionHistory
+            // 
+            this.tabPageInteractionHistory.Controls.Add(this.dataGridViewInteraction);
+            this.tabPageInteractionHistory.Controls.Add(this.buttonEditInteraction);
+            this.tabPageInteractionHistory.Controls.Add(this.buttonDeleteInteraction);
+            this.tabPageInteractionHistory.Controls.Add(this.buttonNewInteraction);
+            this.tabPageInteractionHistory.Location = new System.Drawing.Point(4, 22);
+            this.tabPageInteractionHistory.Name = "tabPageInteractionHistory";
+            this.tabPageInteractionHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageInteractionHistory.Size = new System.Drawing.Size(552, 388);
+            this.tabPageInteractionHistory.TabIndex = 4;
+            this.tabPageInteractionHistory.Text = "Interaction History";
+            this.tabPageInteractionHistory.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewInteraction
+            // 
+            this.dataGridViewInteraction.AllowUserToAddRows = false;
+            this.dataGridViewInteraction.AllowUserToDeleteRows = false;
+            this.dataGridViewInteraction.AutoGenerateColumns = false;
+            this.dataGridViewInteraction.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewInteraction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewInteraction.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.individual2DataGridViewTextBoxColumn,
+            this.interactionDataGridViewTextBoxColumn,
+            this.timeDataGridViewTextBoxColumn1,
+            this.troopVisitDataGridViewTextBoxColumn3,
+            this.commentsDataGridViewTextBoxColumn3});
+            this.dataGridViewInteraction.DataSource = this.individualInteractionBindingSource;
+            this.dataGridViewInteraction.Location = new System.Drawing.Point(7, 7);
+            this.dataGridViewInteraction.Name = "dataGridViewInteraction";
+            this.dataGridViewInteraction.ReadOnly = true;
+            this.dataGridViewInteraction.RowHeadersVisible = false;
+            this.dataGridViewInteraction.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewInteraction.Size = new System.Drawing.Size(539, 346);
+            this.dataGridViewInteraction.TabIndex = 15;
+            // 
+            // individualInteractionBindingSource
+            // 
+            this.individualInteractionBindingSource.DataSource = typeof(TBPDatabase.Domain.IndividualInteraction);
+            // 
+            // buttonEditInteraction
+            // 
+            this.buttonEditInteraction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonEditInteraction.Location = new System.Drawing.Point(309, 359);
+            this.buttonEditInteraction.Name = "buttonEditInteraction";
+            this.buttonEditInteraction.Size = new System.Drawing.Size(75, 23);
+            this.buttonEditInteraction.TabIndex = 14;
+            this.buttonEditInteraction.Text = "Edit";
+            this.buttonEditInteraction.UseVisualStyleBackColor = true;
+            this.buttonEditInteraction.Click += new System.EventHandler(this.buttonEditInteraction_Click);
+            // 
+            // buttonDeleteInteraction
+            // 
+            this.buttonDeleteInteraction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonDeleteInteraction.Location = new System.Drawing.Point(390, 359);
+            this.buttonDeleteInteraction.Name = "buttonDeleteInteraction";
+            this.buttonDeleteInteraction.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteInteraction.TabIndex = 13;
+            this.buttonDeleteInteraction.Text = "Delete";
+            this.buttonDeleteInteraction.UseVisualStyleBackColor = true;
+            this.buttonDeleteInteraction.Click += new System.EventHandler(this.buttonDeleteInteraction_Click);
+            // 
+            // buttonNewInteraction
+            // 
+            this.buttonNewInteraction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonNewInteraction.Location = new System.Drawing.Point(471, 359);
+            this.buttonNewInteraction.Name = "buttonNewInteraction";
+            this.buttonNewInteraction.Size = new System.Drawing.Size(75, 23);
+            this.buttonNewInteraction.TabIndex = 12;
+            this.buttonNewInteraction.Text = "New";
+            this.buttonNewInteraction.UseVisualStyleBackColor = true;
+            this.buttonNewInteraction.Click += new System.EventHandler(this.buttonNewInteraction_Click);
             // 
             // trappingIDLabel
             // 
@@ -792,6 +968,71 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Trapping";
             // 
+            // eventDataGridViewTextBoxColumn
+            // 
+            this.eventDataGridViewTextBoxColumn.DataPropertyName = "Event";
+            this.eventDataGridViewTextBoxColumn.HeaderText = "Event";
+            this.eventDataGridViewTextBoxColumn.Name = "eventDataGridViewTextBoxColumn";
+            this.eventDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // timeDataGridViewTextBoxColumn
+            // 
+            this.timeDataGridViewTextBoxColumn.DataPropertyName = "TimeString";
+            this.timeDataGridViewTextBoxColumn.HeaderText = "Time";
+            this.timeDataGridViewTextBoxColumn.Name = "timeDataGridViewTextBoxColumn";
+            this.timeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // troopVisitDataGridViewTextBoxColumn2
+            // 
+            this.troopVisitDataGridViewTextBoxColumn2.DataPropertyName = "TroopVisit";
+            this.troopVisitDataGridViewTextBoxColumn2.HeaderText = "TroopVisit";
+            this.troopVisitDataGridViewTextBoxColumn2.Name = "troopVisitDataGridViewTextBoxColumn2";
+            this.troopVisitDataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // commentsDataGridViewTextBoxColumn2
+            // 
+            this.commentsDataGridViewTextBoxColumn2.DataPropertyName = "Comments";
+            this.commentsDataGridViewTextBoxColumn2.FillWeight = 400F;
+            this.commentsDataGridViewTextBoxColumn2.HeaderText = "Comments";
+            this.commentsDataGridViewTextBoxColumn2.Name = "commentsDataGridViewTextBoxColumn2";
+            this.commentsDataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // individual2DataGridViewTextBoxColumn
+            // 
+            this.individual2DataGridViewTextBoxColumn.DataPropertyName = "Individual2";
+            this.individual2DataGridViewTextBoxColumn.HeaderText = "Individual";
+            this.individual2DataGridViewTextBoxColumn.Name = "individual2DataGridViewTextBoxColumn";
+            this.individual2DataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // interactionDataGridViewTextBoxColumn
+            // 
+            this.interactionDataGridViewTextBoxColumn.DataPropertyName = "Interaction";
+            this.interactionDataGridViewTextBoxColumn.HeaderText = "Interaction";
+            this.interactionDataGridViewTextBoxColumn.Name = "interactionDataGridViewTextBoxColumn";
+            this.interactionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // timeDataGridViewTextBoxColumn1
+            // 
+            this.timeDataGridViewTextBoxColumn1.DataPropertyName = "TimeString";
+            this.timeDataGridViewTextBoxColumn1.HeaderText = "Time";
+            this.timeDataGridViewTextBoxColumn1.Name = "timeDataGridViewTextBoxColumn1";
+            this.timeDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // troopVisitDataGridViewTextBoxColumn3
+            // 
+            this.troopVisitDataGridViewTextBoxColumn3.DataPropertyName = "TroopVisit";
+            this.troopVisitDataGridViewTextBoxColumn3.HeaderText = "TroopVisit";
+            this.troopVisitDataGridViewTextBoxColumn3.Name = "troopVisitDataGridViewTextBoxColumn3";
+            this.troopVisitDataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // commentsDataGridViewTextBoxColumn3
+            // 
+            this.commentsDataGridViewTextBoxColumn3.DataPropertyName = "Comments";
+            this.commentsDataGridViewTextBoxColumn3.FillWeight = 400F;
+            this.commentsDataGridViewTextBoxColumn3.HeaderText = "Comments";
+            this.commentsDataGridViewTextBoxColumn3.Name = "commentsDataGridViewTextBoxColumn3";
+            this.commentsDataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
             // IndiviualForm
             // 
             this.AcceptButton = this.buttonOk;
@@ -843,6 +1084,12 @@
             this.tabPageAgeClass.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewIndividualAgeClass)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.individualAgeClassBindingSource)).EndInit();
+            this.tabPageEventHistory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvent)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.individualEventBindingSource)).EndInit();
+            this.tabPageInteractionHistory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInteraction)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.individualInteractionBindingSource)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -917,5 +1164,26 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ageClassDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn troopVisitDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn commentsDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.TabPage tabPageEventHistory;
+        private System.Windows.Forms.Button buttonEditEvent;
+        private System.Windows.Forms.Button buttonDeleteEvent;
+        private System.Windows.Forms.Button buttonNewEvent;
+        private System.Windows.Forms.DataGridView dataGridViewEvent;
+        private System.Windows.Forms.BindingSource individualEventBindingSource;
+        private System.Windows.Forms.TabPage tabPageInteractionHistory;
+        private System.Windows.Forms.DataGridView dataGridViewInteraction;
+        private System.Windows.Forms.BindingSource individualInteractionBindingSource;
+        private System.Windows.Forms.Button buttonEditInteraction;
+        private System.Windows.Forms.Button buttonDeleteInteraction;
+        private System.Windows.Forms.Button buttonNewInteraction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn eventDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn timeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn troopVisitDataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn commentsDataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn individual2DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn interactionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn timeDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn troopVisitDataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn commentsDataGridViewTextBoxColumn3;
     }
 }

@@ -71,6 +71,31 @@ namespace TBPDatabase.Domain
                 .GetCurrentOnTroopVisit(troopVisit, this.SightingHistory, certainOnly);
         }
 
+        public virtual IndividualSighting PreviousUncertainOrCurrent(TroopVisit troopVisit, bool forToday)
+        {
+            IndividualSighting sighting = null;
+            if (forToday)
+            {
+                // Lets get the most recent entry
+                sighting = StatePersistentObjectHandler<IndividualSighting, Sighting>
+                .GetCurrentOnTroopVisit(troopVisit, this.SightingHistory, false);
+
+                // If the value returned is not for today,
+                // we want to get the last certain entry only as uncertain entries
+                // do not apply for today anymore
+                if(sighting != null &&
+                    sighting.State.Certain == false && 
+                    sighting.TroopVisit.Date.Date != troopVisit.Date.Date)
+                    sighting = StatePersistentObjectHandler<IndividualSighting, Sighting>
+                .GetCurrentOnTroopVisit(troopVisit, this.SightingHistory, true);
+            }
+            else// We are looking for the result for the last troop visit
+                // Uncertain or otherwise
+                sighting = StatePersistentObjectHandler<IndividualSighting, Sighting>
+                .GetCurrentOnTroopVisit(troopVisit, this.SightingHistory, false);
+            return sighting;
+        }
+
         /// <summary>
         /// Is caluclated for each call, store locally if referenced
         /// often

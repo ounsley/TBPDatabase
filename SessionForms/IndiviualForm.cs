@@ -35,6 +35,9 @@ namespace TBPDatabase.SessionForms
             // initialization
             this.individual = Individual.LoadIndividual(Session,individual);
             this.individualBindingSource.DataSource = individual;
+
+
+            
             
             // Set additional binding sources
             SetData();
@@ -60,6 +63,16 @@ namespace TBPDatabase.SessionForms
             this.individualSightingBindingSource.DataSource = new SortableBindingList<IndividualSighting>(Individual.SightingHistory);
             this.individualReproductiveStateBindingSource.DataSource = new SortableBindingList<IndividualReproductiveState>(Individual.ReproductiveStateHistory);
             this.individualAgeClassBindingSource.DataSource = new SortableBindingList<IndividualAgeClass>(Individual.AgeClassHistory);
+            IList<IndividualEvent> ie = Session
+                .CreateQuery("select i from IndividualEvent as i " +
+                "where i.Individual = :individual").SetParameter<Individual>("individual", this.Individual)
+                .List<IndividualEvent>();
+            this.individualEventBindingSource.DataSource = new SortableBindingList<IndividualEvent>(ie);
+            IList<IndividualInteraction> ii = Session
+                .CreateQuery("select i from IndividualInteraction as i " +
+                "where i.Individual1 = :individual").SetParameter<Individual>("individual", this.Individual)
+                .List<IndividualInteraction>();
+            this.individualInteractionBindingSource.DataSource = new SortableBindingList<IndividualInteraction>(ii);
         }
 
         /// <summary>
@@ -232,7 +245,72 @@ namespace TBPDatabase.SessionForms
         private void buttonEditDetails_Click(object sender, EventArgs e)
         {
             new IndividualEditor(Individual.TroopVisitFirstObserved(), Individual).ShowDialog();
-        }       
+        }
+
+        private void buttonNewEvent_Click(object sender, EventArgs e)
+        {
+            EventEditor tce = new EventEditor(Session, this.Individual);
+            DialogResult result = tce.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                //this.Individual.SightingHistory.Add(tce.State);
+                this.individualEventBindingSource.Add(tce.State);
+                Session.SaveOrUpdate(tce.State);
+                this.RefreshLabels();
+            }
+        }
+
+        private void buttonDeleteEvent_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete this entry from the database?",
+                "Delete Data?",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
+            {
+                //this.Individual.AgeClassHistory.Remove((IndividualAgeClass)individualAgeClassBindingSource.Current);
+                if (((IndividualEvent)this.individualEventBindingSource.Current).ID > 0)
+                    Session.Delete(this.individualEventBindingSource.Current);
+                this.individualEventBindingSource.Remove(individualEventBindingSource.Current);
+                this.RefreshLabels();
+            }
+        }
+
+        private void buttonNewInteraction_Click(object sender, EventArgs e)
+        {
+            InteractionEditor tce = new InteractionEditor(Session, this.Individual);
+            DialogResult result = tce.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                //this.Individual.SightingHistory.Add(tce.State);
+                this.individualInteractionBindingSource.Add(tce.State);
+                Session.SaveOrUpdate(tce.State);
+                this.RefreshLabels();
+            }
+        }
+
+        private void buttonDeleteInteraction_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete this entry from the database?",
+                "Delete Data?",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
+            {
+                //this.Individual.AgeClassHistory.Remove((IndividualAgeClass)individualAgeClassBindingSource.Current);
+                if (((IndividualInteraction)this.individualInteractionBindingSource.Current).ID > 0)
+                    Session.Delete(this.individualInteractionBindingSource.Current);
+                this.individualInteractionBindingSource.Remove(individualInteractionBindingSource.Current);
+                this.RefreshLabels();
+            }
+        }
+
+        private void buttonEditInteraction_Click(object sender, EventArgs e)
+        {
+
+        }
+
+            
 
     }
 }

@@ -21,8 +21,8 @@ namespace TBPDatabase.DailyInput
         {
             TroopVisitSelection,
             TroopVisitDetails,
-            MissingIndividuals,
-            ForeignIndividualSightings,
+            TroopComposition,
+            //ForeignIndividualSightings,
             NewIndividuals,
             ReproductiveStates,
             Summary,
@@ -37,8 +37,8 @@ namespace TBPDatabase.DailyInput
             this.pages = new Dictionary<Step, IWizardPage>();
             this.pages.Add(Step.TroopVisitSelection, this.troopVisitSelectionWizardPage1);
             this.pages.Add(Step.TroopVisitDetails, this.troopVisitWizardPage);
-            this.pages.Add(Step.MissingIndividuals, this.uncertainIndividualsWizardPage1);
-            this.pages.Add(Step.ForeignIndividualSightings, this.foreignIndividualSightingWizardPage1);
+            this.pages.Add(Step.TroopComposition, this.uncertainIndividualsWizardPage1);
+            //this.pages.Add(Step.ForeignIndividualSightings, this.foreignIndividualSightingWizardPage1);
             this.pages.Add(Step.NewIndividuals, this.newIndividualsWizardPage1);
             this.pages.Add(Step.ReproductiveStates, this.reproductiveStateWizardPage1);
             this.pages.Add(Step.Summary, this.summaryWizardPage);

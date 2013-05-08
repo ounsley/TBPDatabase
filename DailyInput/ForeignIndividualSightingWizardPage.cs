@@ -18,8 +18,14 @@ namespace TBPDatabase.DailyInput
             this.heading = "Update the status of foreign individuals that have" +
             " recently been seen with this troop, and add foreign individuals seen today.";
             this.listIndividualsFromTroop = false;
+            this.newRecordHeading = "Newly Sighted";
 
             InitializeComponent();
+
+
+
+            
         }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TBPDatabase.DailyInput
 {
-    partial class ForeignIndividualSightingWizardPage
+    partial class IndividualEventsWizardPage
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,11 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // ForeignIndividualSightingWizardPage
+            // IndividualEventsWizardPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "ForeignIndividualSightingWizardPage";
+            this.AutoSize = true;
+            this.Name = "IndividualEventsWizardPage";
+            this.Size = new System.Drawing.Size(640, 400);
             this.ResumeLayout(false);
 
         }

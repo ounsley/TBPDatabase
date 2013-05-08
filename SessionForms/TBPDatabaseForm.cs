@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Reflection;
+using System.Deployment.Application;
 
 namespace TBPDatabase.SessionForms
 {
@@ -8,7 +10,11 @@ namespace TBPDatabase.SessionForms
         public TBPDatabaseForm()
         {
             InitializeComponent();
-            this.Text = this.Text + " - Version" + Application.ProductVersion;
+            Version version = new Version();
+            version = Assembly.GetExecutingAssembly().GetName().Version;
+            if (ApplicationDeployment.IsNetworkDeployed)
+                version = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+            this.Text = Application.ProductName + " - V" + version.ToString(4);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -24,7 +30,7 @@ namespace TBPDatabase.SessionForms
             {
                 new IndiviualForm(f.Individual).ShowDialog();
             }
-            
+
         }
     }
 }

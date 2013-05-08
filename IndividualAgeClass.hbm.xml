@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="TBPDatabase" namespace="TBPDatabase.Domain">
+  <class name="IndividualAgeClass" table="individual_age_class">
+    <id name="ID" generator="native"/>
+    <many-to-one name="Individual" class="Individual"/>
+    <many-to-one name="AgeClass" class="AgeClass"/>
+    <many-to-one name="TroopVisit"/>    
+    <property name="Comments"/>
+  </class>
+</hibernate-mapping>

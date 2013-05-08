@@ -140,7 +140,7 @@ namespace TBPDatabase.Editors
             this.flowLayoutPanel3.Controls.Add(this.buttonOk);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(179, 174);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(179, 189);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(168, 29);
             this.flowLayoutPanel3.TabIndex = 9;
@@ -151,7 +151,7 @@ namespace TBPDatabase.Editors
             this.textBoxComments.Location = new System.Drawing.Point(90, 59);
             this.textBoxComments.Multiline = true;
             this.textBoxComments.Name = "textBoxComments";
-            this.textBoxComments.Size = new System.Drawing.Size(254, 67);
+            this.textBoxComments.Size = new System.Drawing.Size(254, 60);
             this.textBoxComments.TabIndex = 9;
             // 
             // tableLayoutPanel2
@@ -161,25 +161,26 @@ namespace TBPDatabase.Editors
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.58416F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.75248F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.75248F));
-            this.tableLayoutPanel2.Controls.Add(this.labelCommentsLabel, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.labelCommentsLabel, 0, 4);
             this.tableLayoutPanel2.Controls.Add(this.comboBoxState, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.labelTroopVisit, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.labelTroopVisit, 1, 3);
             this.tableLayoutPanel2.Controls.Add(this.labelStateLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.labelStateDescription, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.textBoxComments, 1, 3);
-            this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel3, 2, 4);
-            this.tableLayoutPanel2.Controls.Add(this.buttonTroopVisistSelect, 3, 2);
-            this.tableLayoutPanel2.Controls.Add(this.labelTroopVisitLabel, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.textBoxComments, 1, 4);
+            this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel3, 2, 5);
+            this.tableLayoutPanel2.Controls.Add(this.buttonTroopVisistSelect, 3, 3);
+            this.tableLayoutPanel2.Controls.Add(this.labelTroopVisitLabel, 0, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 5;
+            this.tableLayoutPanel2.RowCount = 6;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(350, 206);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(350, 221);
             this.tableLayoutPanel2.TabIndex = 10;
             // 
             // labelStateDescription
@@ -200,7 +201,7 @@ namespace TBPDatabase.Editors
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(350, 206);
+            this.ClientSize = new System.Drawing.Size(350, 221);
             this.Controls.Add(this.tableLayoutPanel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;

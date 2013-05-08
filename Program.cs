@@ -25,20 +25,20 @@ namespace TBPDatabase
 
             StreamWriter logFile = new StreamWriter(logFilePath + logFileName,true);
 
-            try
-            {
+            //try
+            //{
                 Application.Run(new TBPDatabaseForm());
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Whoops, something has gone wrong and the application needs to close. " +
-                    "The details have been written to " + logFilePath + logFileName + 
-                ". If you are not Alex Lee, then please let him know that there is a problem with the database application." +
-                " He may know what went wrong (though I doubt it)."
-                , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                logFile.WriteLine(DateTime.Now.TimeOfDay + "\r\n" + e.ToString());
-                logFile.Close();
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show("Whoops, something has gone wrong and the application needs to close. " +
+            //        "The details have been written to " + logFilePath + logFileName + 
+            //    ". If you are not Alex Lee, then please let him know that there is a problem with the database application." +
+            //    " He may know what went wrong (though I doubt it)."
+            //    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    logFile.WriteLine(DateTime.Now.TimeOfDay + "\r\n" + e.ToString());
+            //    logFile.Close();
+            //}
         }
     }
 }

@@ -37,7 +37,11 @@ namespace TBPDatabase.DailyInput
         public List<IndividualAgeClass> NewAgeClass = new List<IndividualAgeClass>();
         public List<IndividualSighting> SightingsToDelete = new List<IndividualSighting>();
         public List<Individual> IndividualsToDelete = new List<Individual>();
+        public List<IndividualReproductiveState> ReproductiveStatesToDelete = new List<IndividualReproductiveState>();
+        
         public bool RetrievedData = false;
+        public List<Individual> MissingToday = new List<Individual>();
+        public List<Individual> MigratedToday = new List<Individual>();
 
         private DailyData()
         {
@@ -68,17 +72,16 @@ namespace TBPDatabase.DailyInput
                 if (s.ID != 0)
                     session.Delete(s);
             }
+            foreach (IndividualReproductiveState irs in ReproductiveStatesToDelete)
+            {
+                if (irs.ID != 0)
+                    session.Delete(irs);
+            }
             foreach (Individual s in IndividualsToDelete)
             {
-                // Swallow delete attempts
-                try
-                {
                     session.Delete(s);
-                }
-                catch
-                {
-                }
             }
+            
 
             foreach (Individual i in NewIndividuals)
                 session.SaveOrUpdate(i);
