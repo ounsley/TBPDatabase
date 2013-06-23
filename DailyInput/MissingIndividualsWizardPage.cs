@@ -160,10 +160,12 @@ namespace TBPDatabase.DailyInput
             currentNotSeen = new BindingList<IndividualSighting>(sightings);
             this.individualSightingBindingSource.DataSource = currentNotSeen;
 
-            // Filter individuals not from this troop only
+            // Filter individuals not from this troop only, either current troop == null
+            // or current troop is differnet
             individuals = individuals.FindAll(new Predicate<Individual>(x =>
+                x.CurrentTroop(DailyData.Current.TroopVisit.Date) == null || (
                     x.CurrentTroop(DailyData.Current.TroopVisit.Date) != null &&
-                    (x.CurrentTroop(DailyData.Current.TroopVisit.Date).TroopID != DailyData.Current.TroopVisit.Troop.TroopID)));
+                    (x.CurrentTroop(DailyData.Current.TroopVisit.Date).TroopID != DailyData.Current.TroopVisit.Troop.TroopID))));
 
             // Add to combo box
             this.comboBoxIndividuals.DataSource = individuals;

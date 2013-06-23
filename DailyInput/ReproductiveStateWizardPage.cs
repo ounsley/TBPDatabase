@@ -287,7 +287,6 @@ namespace TBPDatabase.DailyInput
                 DailyData.Current.NewAgeClass.Add(iac);
             }
 
-            DailyData.Current.NewReproductiveStates.Add(irs);
             boundReproductiveStates.Add(irs);
         }
 
